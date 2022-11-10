@@ -4,4 +4,4 @@ metadata:
   name: metallb
 spec:
   addresses:
-    - 10.10.20.200-10.10.20.205
+    - 10.10.20.160-10.10.20.165
