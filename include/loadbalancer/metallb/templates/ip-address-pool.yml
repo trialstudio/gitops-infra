@@ -1,0 +1,7 @@
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: metallb
+spec:
+  addresses:
+    - 10.10.20.200-10.10.20.205
