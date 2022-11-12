@@ -1,0 +1,4 @@
+charts
+.exclude
+Chart.lock
+.helmignore
