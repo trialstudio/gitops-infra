@@ -1,0 +1,46 @@
+argo-workflows:
+  server:
+    serviceAccount:
+      name: argo-workflow-server
+
+    volumes:
+      - name: oidc-credentials
+        csi:
+          driver: secrets-store.csi.k8s.io
+          readOnly: true
+          volumeAttributes:
+            secretProviderClass: "oidc-credentials"
+    volumeMounts:
+      - name: oidc-credentials
+        mountPath: "/mnt/secrets-store"
+        readOnly: true
+
+    sso:
+      issuer: https://oidc.trial.studio
+      clientId:
+        name: oidc-credentials
+        key: oidc-client-id
+      clientSecret:
+        name: oidc-credentials
+        key: oidc-client-secret
+      redirectUrl: https://argo-workflow.trial.studio/oauth2/callback
+      rbac:
+        enabled: false
+        secretWhitelist: []
+      insecureSkipVerify: false
+      scopes:
+        - profile
+        - groups
+    extraArgs:
+      - --auth-mode=sso
+    ingress:
+      enabled: true
+      ingressClassName: nginx
+      hosts:
+        - argo-workflow.trial.studio
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt
+      tls:
+        - secretName: argo-workflow-cm-tls
+          hosts:
+            - argo-workflow.trial.studio
