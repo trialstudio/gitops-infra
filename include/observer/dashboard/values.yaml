@@ -34,7 +34,6 @@ grafana:
 
   grafana.ini:
     server:
-      protocol: https
       domain: grafana.trial.studio
       root_url: https://grafana.trial.studio
       enforce_domain: true
