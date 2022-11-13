@@ -1,0 +1,28 @@
+loki-simple-scalable:
+  loki:
+    auth_enabled: false
+
+  write:
+    persistence:
+      storageClass: openebs-hostpath
+
+  read:
+    persistence:
+      storageClass: openebs-hostpath
+
+  minio:
+    enabled: true
+    persistence:
+      storageClass: openebs-hostpath
+
+  monitoring:
+    serviceMonitor:
+      enabled: true
+    selfMonitoring:
+      enabled: true
+      grafanaAgent:
+        installOperator: false
+
+promtail:
+  configmap:
+    enabled: false
