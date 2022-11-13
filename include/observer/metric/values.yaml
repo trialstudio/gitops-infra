@@ -1,0 +1,44 @@
+mimir-distributed:
+  alertmanager:
+    persistentVolume:
+      enabled: false
+      storageClass: openebs-hostpath
+
+  compactor:
+    persistentVolume:
+      enabled: false
+      storageClass: openebs-hostpath
+
+  ingester:
+    persistentVolume:
+      enabled: false
+      storageClass: openebs-hostpath
+
+  store_gateway:
+    persistentVolume:
+      enabled: false
+      storageClass: openebs-hostpath
+
+  minio:
+    persistence:
+      storageClass: openebs-hostpath
+
+  nginx:
+    ingress:
+      enabled: true
+      ingresClassName: nginx
+      hosts:
+        - host: mimir.trial.studio
+          paths:
+            - path: /
+              pathType: Prefix
+      tls:
+  metaMonitoring:
+    serviceMonitor:
+      enabled: true
+    grafanaAgent:
+      enabled: true
+      installOperator: true
+      metrics:
+        additionalRemoteWriteConfigs:
+          - url: "http://mimir-nginx.observer.svc:80/api/v1/push"
