@@ -2,6 +2,14 @@ tempo-distributed:
   metaMonitoring:
     serviceMonitor:
       enabled: true
+    grafanaAgent:
+      enabled: true
+      logs:
+        remote:
+          url: http://loki-gateway
+      metrics:
+        remote:
+          url: http://metric-mimir-nginx
 
   minio:
     persistence:
