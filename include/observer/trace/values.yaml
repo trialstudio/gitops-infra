@@ -1,0 +1,11 @@
+tempo-distributed:
+  metaMonitoring:
+    serviceMonitor:
+      enabled: true
+
+  minio:
+    persistence:
+      storageClass: openebs-hostpath
+
+  gateway:
+    enabled: true
