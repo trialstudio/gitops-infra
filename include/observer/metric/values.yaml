@@ -35,4 +35,4 @@ mimir-distributed:
       installOperator: false
       metrics:
         additionalRemoteWriteConfigs:
-          - url: "http://mimir-nginx.observer.svc:80/api/v1/push"
+          - url: "http://metric-mimir-nginx/api/v1/push"
