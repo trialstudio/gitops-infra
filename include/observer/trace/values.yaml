@@ -9,7 +9,7 @@ tempo-distributed:
           url: http://loki-gateway
       metrics:
         remote:
-          url: http://metric-mimir-nginx
+          url: http://metric-mimir-nginx/api/v1/push
 
   minio:
     persistence:
