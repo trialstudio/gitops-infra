@@ -20,7 +20,7 @@ wiki:
     enabled: false
     existingSecret: wikijs-credentials
     existingSecretKey: wikijs-password
-    postgresqlHost: wiki-postgresql
+    postgresqlHost: wikijs-postgresql
     postgresqlDatabase: wikijs
     postgresqlUser: wikijs
   volumes:
