@@ -1,0 +1,57 @@
+wiki:
+  serviceAccount:
+    create: true
+    name: wikijs
+  ingress:
+    enabled: true
+    className: nginx
+    hosts:
+      - host: wiki.trial.studio
+        paths:
+          - path: /
+            pathType: Prefix
+  postgresql:
+    enabled: false
+    existingSecret: wikijs-credentials
+    existingSecretKey: wikijs-password
+    postgresqlHost: wiki-postgresql
+    postgresqlDatabase: wikijs
+    postgresqlUser: wikijss
+  volumes:
+    - name: wikijs-credentials
+      csi:
+        driver: secrets-store.csi.k8s.io
+        readOnly: true
+        volumeAttributes:
+          secretProviderClass: "wikijs-credentials"
+  volumeMounts:
+    - name: wikijs-credentials
+      mountPath: "/mnt/secrets-store"
+      readOnly: true
+
+postgresql:
+  global:
+    storageClass: openebs-hostpath
+    postgresql:
+      auth:
+        username: wikijs
+        database: wikijs
+        existingSecret: wikijs-credentials
+        secretKeys:
+          userPasswordKey: wikijs-password
+          adminPasswordKey: postgres-password
+  serviceAccount:
+    create: true
+    name: wikijs-db
+  primary:
+    extraVolumes:
+      - name: wikijs-credentials
+        csi:
+          driver: secrets-store.csi.k8s.io
+          readOnly: true
+          volumeAttributes:
+            secretProviderClass: "wikijs-credentials"
+    extraVolumeMounts:
+      - name: wikijs-credentials
+        mountPath: "/mnt/secrets-store"
+        readOnly: true
