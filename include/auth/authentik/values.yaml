@@ -1,0 +1,41 @@
+authentik:
+  authentik:
+    postgresql:
+      host: authentik-db-cluster-rw
+      user: ""
+  envValueFrom:
+    AUTHENTIK_POSTGRESQL__USER:
+      secretKeyRef:
+        name: db-credentials-authentik
+        key: username
+    AUTHENTIK_POSTGRESQL__PASSWORD:
+      secretKeyRef:
+        name: db-credentials-authentik
+        key: password
+    AUTHENTIK_SECRET_KEY:
+      secretKeyRef:
+        name: authentik-secret-key
+        key: authentik-secret-key
+
+  ingress:
+    enabled: true
+    ingressClassName: "nginx"
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt
+    hosts:
+      - host: authentik.trial.studio
+        paths:
+          - path: "/"
+            pathType: Prefix
+    tls:
+      - hosts:
+          - authentik.trial.studio
+        secretName: authentik-cm-tls
+
+  postgresql:
+    enabled: false
+  redis:
+    enabled: true
+    master:
+      persistence:
+        enabled: false

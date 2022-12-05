@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: authentik-db
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: db-credentials
+spec:
+  serviceAccountName: authentik-db
+  containers:
+    - name: db-credentials
+      image: alpine:latest
+      command:
+        - sleep
+        - infinity
+      volumeMounts:
+        - name: authentik-db-credentials
+          mountPath: "/mnt/secrets-store"
+          readOnly: true
+  volumes:
+    - name: authentik-db-credentials
+      csi:
+        driver: secrets-store.csi.k8s.io
+        readOnly: true
+        volumeAttributes:
+          secretProviderClass: "authentik-db-credentials"

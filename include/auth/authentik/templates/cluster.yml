@@ -1,0 +1,38 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: authentik-db-cluster
+spec:
+  instances: 2
+  primaryUpdateStrategy: unsupervised
+  storage:
+    size: 5Gi
+    storageClass: openebs-hostpath
+  superuserSecret:
+    name: db-credentials-postgres
+  bootstrap:
+    initdb:
+      owner: authentik
+      database: authentik
+      dataChecksums: true
+      secret:
+        name: db-credentials-authentik
+
+  backup:
+    retentionPolicy: "30d"
+    barmanObjectStore:
+      wal:
+        compression: gzip
+        encryption: AES256
+        maxParallel: 4
+      destinationPath: "s3://ibcngn-db-backup-authentik/"
+      s3Credentials:
+        region:
+          key: s3-backup-region
+          name: s3-backup-credentials
+        accessKeyId:
+          key: s3-backup-access-key-id
+          name: s3-backup-credentials
+        secretAccessKey:
+          key: s3-backup-secret-access-key
+          name: s3-backup-credentials
