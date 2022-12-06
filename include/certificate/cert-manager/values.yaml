@@ -1,2 +1,15 @@
 cert-manager:
   installCRDs: true
+  serviceAccount:
+    name: cert-manager
+  volumeMounts:
+    - name: cert-manager-credentials
+      mountPath: "/mnt/secrets-store"
+      readOnly: true
+  volumes:
+    - name: cert-manager-credentials
+      csi:
+        driver: secrets-store.csi.k8s.io
+        readOnly: true
+        volumeAttributes:
+          secretProviderClass: cert-manager-credentials
