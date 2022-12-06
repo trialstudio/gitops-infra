@@ -16,7 +16,7 @@ spec:
           route53:
             region: us-east-2
             hostedZoneID: Z06285332QCWSWF1RDQBK
-            accessKeyID: AKIAIOSFODNN7EXAMPLE
+            accessKeyID: AKIA3QBWGPBXGDGDAD3V
             secretAccessKeySecretRef:
               name: cert-manager-credentials
               key: secret-access-key
