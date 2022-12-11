@@ -23,5 +23,5 @@ spec:
         driver: "secrets-store.csi.k8s.io"
         readOnly: true
         volumeAttributes:
-          secretProviderClass: "oidc-credentials"
+          secretProviderClass: "oidc-credentials-argo-cd"
   restartPolicy: Always
