@@ -20,5 +20,5 @@ spec:
         driver: "secrets-store.csi.k8s.io"
         readOnly: true
         volumeAttributes:
-          secretProviderClass: "secret-csi-provider"
+          secretProviderClass: "oidc-credentials"
   restartPolicy: Always
