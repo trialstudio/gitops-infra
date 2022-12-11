@@ -7,5 +7,5 @@ metadata:
     app.kubernetes.io/part-of: argocd
 data:
   policy.csv: |
-    g, trialstudio:site-reliability-engineer, role:admin
+    g, site-reliability-engineer, role:admin
   policy.default: role:readonly
