@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: csi-trigger
+  labels:
+    app: csi-trigger
+spec:
+  serviceAccountName: csi-trigger
+  containers:
+    - name: csi-trigger
+      image: alpine:latest
+      imagePullPolicy: IfNotPresent
+      volumeMounts:
+          - mountPath: "/mnt/secret-store"
+            name: secret
+            readOnly: true
+  volumes:
+    - name: secret
+      csi:
+        driver: "secrets-store.csi.k8s.io"
+        readOnly: true
+        volumeAttributes:
+          secretProviderClass: "secret-csi-provider"
+  restartPolicy: Always
