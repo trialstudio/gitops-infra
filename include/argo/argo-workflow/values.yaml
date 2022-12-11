@@ -9,28 +9,30 @@ argo-workflows:
           driver: secrets-store.csi.k8s.io
           readOnly: true
           volumeAttributes:
-            secretProviderClass: "oidc-credentials"
+            secretProviderClass: oidc-credentials-argo-workflow
     volumeMounts:
       - name: oidc-credentials
         mountPath: "/mnt/secrets-store"
         readOnly: true
 
     sso:
-      issuer: https://oidc.trial.studio
+      issuer: https://authentik.trial.studio/application/o/argo-workflow/
       clientId:
-        name: oidc-credentials
+        name: oidc-credentials-argo-workflow
         key: oidc-client-id
       clientSecret:
-        name: oidc-credentials
+        name: oidc-credentials-argo-workflow
         key: oidc-client-secret
       redirectUrl: https://argo-workflow.trial.studio/oauth2/callback
       rbac:
         enabled: false
         secretWhitelist: []
       insecureSkipVerify: false
+      userInfoPath: /application/o/userinfo
       scopes:
         - profile
         - groups
+        - email
     extraArgs:
       - --auth-mode=sso
     ingress:
