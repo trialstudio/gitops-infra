@@ -16,16 +16,25 @@ dex:
           name: oidc-credentials-argo-workflow
           key: oidc-client-secret
   volumeMounts:
-    - mountPath: "/mnt/secret-store"
-      name: secret
+    - mountPath: "/mnt/secret-store-dex"
+      name: secret-dex
+      readOnly: true
+    - mountPath: "/mnt/secret-store-argo-workflow"
+      name: secret-argo-workflow
       readOnly: true
   volumes:
-    - name: secret
+    - name: secret-dex
       csi:
         driver: "secrets-store.csi.k8s.io"
         readOnly: true
         volumeAttributes:
           secretProviderClass: "oidc-credentials-dex"
+    - name: secret-argo-workflow
+      csi:
+        driver: "secrets-store.csi.k8s.io"
+        readOnly: true
+        volumeAttributes:
+          secretProviderClass: "oidc-credentials-argo-workflow"
   config:
     issuer: https://authentik.trial.studio/application/o/dex/
     storage:
