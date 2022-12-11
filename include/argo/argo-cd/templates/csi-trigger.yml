@@ -10,6 +10,9 @@ spec:
     - name: csi-trigger
       image: alpine:latest
       imagePullPolicy: IfNotPresent
+      command:
+        - sleep
+        - infinity
       volumeMounts:
           - mountPath: "/mnt/secret-store"
             name: secret
