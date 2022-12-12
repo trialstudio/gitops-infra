@@ -16,7 +16,8 @@ argo-workflows:
         readOnly: true
 
     sso:
-      issuer: https://authentik.trial.studio/application/o/argo-workflow/
+      issuer: https://dex.trial.studio/api/dex
+      #issuer: https://authentik.trial.studio/application/o/argo-workflow/
       clientId:
         name: oidc-credentials-argo-workflow
         key: oidc-client-id
