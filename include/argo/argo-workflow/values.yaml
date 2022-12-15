@@ -16,20 +16,18 @@ argo-workflows:
         readOnly: true
 
     sso:
-      issuer: https://dex.trial.studio/dex
-      #issuer: https://authentik.trial.studio/application/o/argo-workflow/
+      issuer: https://vault.trial.studio/v1/identity/oidc/provider/default
       clientId:
-        name: oidc-credentials-argo-workflow
+        name: mysecret
         key: oidc-client-id
       clientSecret:
-        name: oidc-credentials-argo-workflow
+        name: mysecret
         key: oidc-client-secret
       redirectUrl: https://argo-workflow.trial.studio/oauth2/callback
       rbac:
         enabled: false
         secretWhitelist: []
       insecureSkipVerify: false
-      userInfoPath: /application/o/userinfo
       scopes:
         - profile
         - groups
