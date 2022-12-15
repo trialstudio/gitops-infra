@@ -18,10 +18,10 @@ argo-workflows:
     sso:
       issuer: https://vault.trial.studio/v1/identity/oidc/provider/default
       clientId:
-        name: mysecret
+        name: oidc-credentials-argo-workflow
         key: oidc-client-id
       clientSecret:
-        name: mysecret
+        name: oidc-credentials-argo-workflow
         key: oidc-client-secret
       redirectUrl: https://argo-workflow.trial.studio/oauth2/callback
       rbac:
