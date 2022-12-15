@@ -16,7 +16,7 @@ grafana:
   serviceAccount:
     name: grafana
 
-  envFromSecret: grafana-credentials
+  envFromSecret: oidc-credentials-grafana
   extraSecretMounts:
     - name: grafana-credentials
       mountPath: "/mnt/secrets-store"
@@ -25,12 +25,7 @@ grafana:
         driver: secrets-store.csi.k8s.io
         readOnly: true
         volumeAttributes:
-          secretProviderClass: "grafana-credentials"
-
-  admin:
-    existingSecret: grafana-credentials
-    userKey: admin-user
-    passwordKey: admin-password
+          secretProviderClass: "oidc-credentials-grafana"
 
   grafana.ini:
     server:
@@ -56,15 +51,15 @@ grafana:
     auth:
       disable_login_form: false
     auth.generic_oauth:
-      name: dex
+      name: vault
       icon: signin
       enabled: true
       client_id: ${oidc-client-id}
       client_secret: ${oidc-client-secret}
       scopes: openid profile groups email
-      auth_url: https://oidc.trial.studio/auth
-      token_url: https://oidc.trial.studio/token
-      api_url: https://oidc.trial.studio/userinfo
+      auth_url: https://vault.trial.studio/ui/vault/identity/oidc/provider/grafana/authorize
+      token_url: https://vault.trial.studio/v1/identity/oidc/provider/grafana/token
+      api_url: https://vault.trial.studio/v1/identity/oidc/provider/grafana/userinfo
       allow_assign_grafana_admin: true
       role_attribute_path: contains(groups[*], 'trialstudio:site-reliability-engineer') && 'GrafanaAdmin' || 'Admin'
     log:
