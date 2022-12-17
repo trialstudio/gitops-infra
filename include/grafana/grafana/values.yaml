@@ -39,17 +39,18 @@ grafana:
       check_for_plugin_updates: true
       feedback_links_enabled: false
     security:
-      disable_initial_admin_creation: false
+      disable_initial_admin_creation: true
       disable_gravatar: true
       cookie_secure: true
       strict_transport_security: true
       content_security_policy: true
     dashboards:
       min_refresh_interval: 15s
-    datasources:
-      datasource_limit: 10000
+    users:
+      viewers_can_edit: true
     auth:
-      disable_login_form: false
+      disable_login_form: true
+      oauth_auto_login: true
     auth.generic_oauth:
       name: vault
       icon: signin
@@ -61,7 +62,8 @@ grafana:
       token_url: https://vault.trial.studio/v1/identity/oidc/provider/grafana/token
       api_url: https://vault.trial.studio/v1/identity/oidc/provider/grafana/userinfo
       allow_assign_grafana_admin: true
-      role_attribute_path: contains(groups[*], 'trialstudio:site-reliability-engineer') && 'GrafanaAdmin' || 'Admin'
+      role_attribute_path: contains(groups[*], 'grafana-admins') && 'GrafanaAdmin' || 'Viewer'
+#      role_attribute_path: contains(groups[*], 'trialstudio:site-reliability-engineer') && 'GrafanaAdmin' || 'Admin'
     log:
       mode: console
     log.console:
