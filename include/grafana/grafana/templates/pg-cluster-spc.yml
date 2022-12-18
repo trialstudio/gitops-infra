@@ -37,7 +37,7 @@ spec:
 
   parameters:
     vaultAddress: "http://vault-active.secret:8200"
-    roleName: "db-grafana"
+    roleName: "db-grafana-read"
     objects: |
       - objectName: "admin-db-username"
         secretPath: "secret/data/grafana"
