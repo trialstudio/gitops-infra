@@ -56,7 +56,7 @@ grafana:
       content_security_policy: true
     database:
       type: postgres
-      host: grafana-db-cluster-rw:5432
+      host: grafana-postgres-cluster-rw:5432
       name: grafana
       user: ${username}
       password: ${password}
