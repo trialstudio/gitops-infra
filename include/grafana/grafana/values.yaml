@@ -17,8 +17,8 @@ grafana:
     name: grafana
 
   envFromSecrets:
-    - grafana-app-secrets
-    - grafana-postgres-credentials-grafana
+    - name: grafana-app-secrets
+    - name: grafana-postgres-credentials-grafana
   extraSecretMounts:
     - name: grafana-credentials
       mountPath: "/mnt/secrets-store"
