@@ -26,7 +26,7 @@ mimir-distributed:
   nginx:
     ingress:
       enabled: true
-      annotation:
+      annotations:
         cert-manager.io/cluster-issuer: letsencrypt
       hosts:
         - host: mimir.trial.studio
