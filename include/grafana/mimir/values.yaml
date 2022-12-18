@@ -25,7 +25,18 @@ mimir-distributed:
 
   nginx:
     ingress:
-      enabled: false
+      enabled: true
+    annotation:
+      cert-manager.io/cluster-issuer: letsencrypt
+    hosts:
+      - host: mimir.trial.studio
+        paths:
+          - path: /
+            pathType: Prefix
+    tls:
+      - secretName: mimir-cm-tls
+        hosts:
+          - mimir.trial.studio
 
   metaMonitoring:
     serviceMonitor:
