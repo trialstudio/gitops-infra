@@ -1,0 +1,42 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: spc-container-grafana
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spc-container-grafana
+  labels:
+    app: spc-container-grafana
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: spc-container-grafana
+  template:
+    metadata:
+      name: spc-container-grafana
+      labels:
+        app: spc-container-grafana
+    spec:
+      serviceAccountName: spc-container-grafana
+      containers:
+        - name: spc-container-grafana
+          image: alpine:latest
+          imagePullPolicy: IfNotPresent
+          command:
+            - sleep
+            - infinity
+          volumeMounts:
+            - mountPath: "/mnt/secret-store"
+              name: grafana-db-credentials
+              readOnly: true
+      volumes:
+        - name: grafana-db-credentials
+          csi:
+            driver: "secrets-store.csi.k8s.io"
+            readOnly: true
+            volumeAttributes:
+              secretProviderClass: "grafana-db-credentials"
+      restartPolicy: Always

@@ -1,0 +1,38 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: grafana-db-cluster
+spec:
+  instances: 2
+  primaryUpdateStrategy: unsupervised
+  storage:
+    size: 5Gi
+    storageClass: openebs-hostpath
+  superuserSecret:
+    name: grafana-db-credentials-admin
+  bootstrap:
+    initdb:
+      owner: grafana
+      database: grafana
+      dataChecksums: true
+      secret:
+        name: grafana-db-credentials-grafana
+
+  backup:
+    retentionPolicy: "30d"
+    barmanObjectStore:
+      wal:
+        compression: gzip
+        encryption: AES256
+        maxParallel: 4
+      destinationPath: "s3://ibcngn-db-backup-grafana/"
+      s3Credentials:
+        region:
+          key: s3-region
+          name: s3-backup-credentials-grafana
+        accessKeyId:
+          key: s3-access-key-id
+          name: s3-backup-credentials-grafana
+        secretAccessKey:
+          key: s3-access-key-secret
+          name: s3-backup-credentials-grafana

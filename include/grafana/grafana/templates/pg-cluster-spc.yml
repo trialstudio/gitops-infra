@@ -1,0 +1,62 @@
+apiVersion: secrets-store.csi.x-k8s.io/v1
+kind: SecretProviderClass
+metadata:
+  name: grafana-db-credentials
+spec:
+  provider: vault
+  secretObjects:
+    - secretName: grafana-db-credentials-admin
+      type: kubernetes.io/basic-auth
+      labels:
+        "cnpg.io/reload": "true"
+      data:
+        - objectName: admin-db-username
+          key: username
+        - objectName: admin-db-password
+          key: password
+    - secretName: grafana-db-credentials-grafana
+      type: kubernetes.io/basic-auth
+      labels:
+        "cnpg.io/reload": "true"
+      data:
+        - objectName: grafana-db-username
+          key: username
+        - objectName: grafana-db-password
+          key: password
+    - secretName: s3-backup-credentials-grafana
+      type: Opaque
+      labels:
+        "cnpg.io/reload": "true"
+      data:
+        - objectName: s3-access-key-id
+          key: s3-access-key-id
+        - objectName: s3-access-key-secret
+          key: s3-access-key-secret
+        - objectName: s3-region
+          key: s3-region
+
+  parameters:
+    vaultAddress: "http://vault-active.secret:8200"
+    roleName: "db-grafana"
+    objects: |
+      - objectName: "admin-db-username"
+        secretPath: "secret/data/grafana"
+        secretKey: "admin-db-username"
+      - objectName: "admin-db-password"
+        secretPath: "secret/data/grafana"
+        secretKey: "admin-db-password"
+      - objectName: "grafana-db-username"
+        secretPath: "secret/data/grafana"
+        secretKey: "grafana-db-username"
+      - objectName: "grafana-db-password"
+        secretPath: "secret/data/grafana"
+        secretKey: "grafana-db-password"
+      - objectName: "s3-backup-access-key-id"
+        secretPath: "secret/data/grafana"
+        secretKey: "s3-access-key-id"
+      - objectName: "s3-access-key-secret"
+        secretPath: "secret/data/grafana"
+        secretKey: "s3-access-key-secret"
+      - objectName: "s3-region"
+        secretPath: "secret/data/grafana"
+        secretKey: "s3-region"
