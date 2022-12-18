@@ -16,7 +16,9 @@ grafana:
   serviceAccount:
     name: grafana
 
-  envFromSecret: oidc-credentials-grafana
+  envFromSecrets:
+    - grafana-app-secrets
+    - grafana-postgres-credentials-grafana
   extraSecretMounts:
     - name: grafana-credentials
       mountPath: "/mnt/secrets-store"
@@ -25,7 +27,15 @@ grafana:
         driver: secrets-store.csi.k8s.io
         readOnly: true
         volumeAttributes:
-          secretProviderClass: "oidc-credentials-grafana"
+          secretProviderClass: grafana-app-secrets
+    - name: grafana-credentials
+      mountPath: "/mnt/secrets-store"
+      readOnly: true
+      csi:
+        driver: secrets-store.csi.k8s.io
+        readOnly: true
+        volumeAttributes:
+          secretProviderClass: grafana-postgres-credentials-grafana
 
   grafana.ini:
     server:
@@ -44,13 +54,18 @@ grafana:
       cookie_secure: true
       strict_transport_security: true
       content_security_policy: true
+    database:
+      type: postgres
+      host: grafana-db-cluster-rw:5432
+      name: grafana
+      user: ${username}
+      password: ${password}
     dashboards:
       min_refresh_interval: 15s
     users:
       viewers_can_edit: true
     auth:
       disable_login_form: true
-      oauth_auto_login: true
     auth.generic_oauth:
       name: vault
       icon: signin

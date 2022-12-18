@@ -1,27 +1,27 @@
 apiVersion: secrets-store.csi.x-k8s.io/v1
 kind: SecretProviderClass
 metadata:
-  name: grafana-db-credentials
+  name: grafana-postgres-credentials
 spec:
   provider: vault
   secretObjects:
-    - secretName: grafana-db-credentials-admin
+    - secretName: grafana-postgres-credentials-admin
       type: kubernetes.io/basic-auth
       labels:
         "cnpg.io/reload": "true"
       data:
-        - objectName: admin-db-username
+        - objectName: postgres-admin-username
           key: username
-        - objectName: admin-db-password
+        - objectName: postgres-admin-password
           key: password
-    - secretName: grafana-db-credentials-grafana
+    - secretName: grafana-postgres-credentials-grafana
       type: kubernetes.io/basic-auth
       labels:
         "cnpg.io/reload": "true"
       data:
-        - objectName: grafana-db-username
+        - objectName: postgres-grafana-username
           key: username
-        - objectName: grafana-db-password
+        - objectName: postgres-grafana-password
           key: password
     - secretName: s3-backup-credentials-grafana
       type: Opaque
@@ -37,26 +37,26 @@ spec:
 
   parameters:
     vaultAddress: "http://vault-active.secret:8200"
-    roleName: "db-grafana-read"
+    roleName: "grafana-postgres-read"
     objects: |
-      - objectName: "admin-db-username"
-        secretPath: "secret/data/grafana/db"
-        secretKey: "admin-db-username"
-      - objectName: "admin-db-password"
-        secretPath: "secret/data/grafana/db"
-        secretKey: "admin-db-password"
-      - objectName: "grafana-db-username"
-        secretPath: "secret/data/grafana/db"
-        secretKey: "grafana-db-username"
-      - objectName: "grafana-db-password"
-        secretPath: "secret/data/grafana/db"
-        secretKey: "grafana-db-password"
+      - objectName: "postgres-admin-username"
+        secretPath: "secret/data/grafana/postgres"
+        secretKey: "postgres-admin-username"
+      - objectName: "postgres-admin-password"
+        secretPath: "secret/data/grafana/postgres"
+        secretKey: "postgres-admin-password"
+      - objectName: "postgres-grafana-username"
+        secretPath: "secret/data/grafana/postgres"
+        secretKey: "postgres-grafana-username"
+      - objectName: "postgres-grafana-password"
+        secretPath: "secret/data/grafana/postgres"
+        secretKey: "postgres-grafana-password"
       - objectName: "s3-access-key-id"
-        secretPath: "secret/data/grafana/db"
+        secretPath: "secret/data/grafana/postgres"
         secretKey: "s3-access-key-id"
       - objectName: "s3-access-key-secret"
-        secretPath: "secret/data/grafana/db"
+        secretPath: "secret/data/grafana/postgres"
         secretKey: "s3-access-key-secret"
       - objectName: "s3-region"
-        secretPath: "secret/data/grafana/db"
+        secretPath: "secret/data/grafana/postgres"
         secretKey: "s3-region"

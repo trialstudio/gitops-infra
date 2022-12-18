@@ -1,7 +1,7 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
-  name: grafana-db-cluster
+  name: grafana-postgres-cluster
 spec:
   instances: 2
   primaryUpdateStrategy: unsupervised
@@ -9,14 +9,14 @@ spec:
     size: 5Gi
     storageClass: openebs-hostpath
   superuserSecret:
-    name: grafana-db-credentials-admin
+    name: grafana-postgres-credentials-admin
   bootstrap:
     initdb:
       owner: grafana
       database: grafana
       dataChecksums: true
       secret:
-        name: grafana-db-credentials-grafana
+        name: grafana-postgres-credentials-grafana
 
   backup:
     retentionPolicy: "30d"

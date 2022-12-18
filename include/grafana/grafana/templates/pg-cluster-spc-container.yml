@@ -30,13 +30,13 @@ spec:
             - infinity
           volumeMounts:
             - mountPath: "/mnt/secret-store"
-              name: grafana-db-credentials
+              name: grafana-postgres-credentials
               readOnly: true
       volumes:
-        - name: grafana-db-credentials
+        - name: grafana-postgres-credentials
           csi:
             driver: "secrets-store.csi.k8s.io"
             readOnly: true
             volumeAttributes:
-              secretProviderClass: "grafana-db-credentials"
+              secretProviderClass: "grafana-postgres-credentials"
       restartPolicy: Always
