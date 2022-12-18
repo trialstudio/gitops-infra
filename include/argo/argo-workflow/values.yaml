@@ -4,24 +4,24 @@ argo-workflows:
       name: argo-workflow-server
 
     volumes:
-      - name: oidc-credentials
+      - name: argo-workflow-app-secrets
         csi:
           driver: secrets-store.csi.k8s.io
           readOnly: true
           volumeAttributes:
-            secretProviderClass: oidc-credentials-argo-workflow
+            secretProviderClass: argo-workflow-app-secrets
     volumeMounts:
-      - name: oidc-credentials
+      - name: argo-workflow-app-secrets
         mountPath: "/mnt/secrets-store"
         readOnly: true
 
     sso:
       issuer: https://vault.trial.studio/v1/identity/oidc/provider/argo-workflow
       clientId:
-        name: oidc-credentials-argo-workflow
+        name: argo-workflow-app-secrets
         key: oidc-client-id
       clientSecret:
-        name: oidc-credentials-argo-workflow
+        name: argo-workflow-app-secrets
         key: oidc-client-secret
       redirectUrl: https://argo-workflow.trial.studio/oauth2/callback
       rbac:

@@ -1,37 +1,42 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: spc-container-argo-cd
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: csi-trigger
+  name: spc-container-argo-cd
   labels:
-    app: csi-trigger
+    app: spc-container-argo-cd
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: csi-trigger
+      app: spc-container-argo-cd
   template:
     metadata:
-      name: csi-trigger
+      name: spc-container-argo-cd
       labels:
-        app: csi-trigger
+        app: spc-container-argo-cd
     spec:
-      serviceAccountName: csi-trigger
+      serviceAccountName: spc-container-argo-cd
       containers:
-        - name: csi-trigger
+        - name: spc-container-argo-cd
           image: alpine:latest
           imagePullPolicy: IfNotPresent
           command:
             - sleep
             - infinity
           volumeMounts:
-              - mountPath: "/mnt/secret-store"
-                name: secret
-                readOnly: true
+            - mountPath: "/mnt/secret-store"
+              name: argo-cd-app-secrets
+              readOnly: true
       volumes:
-        - name: secret
+        - name: argo-cd-app-secrets
           csi:
             driver: "secrets-store.csi.k8s.io"
             readOnly: true
             volumeAttributes:
-              secretProviderClass: "oidc-credentials-argo-cd"
+              secretProviderClass: "argo-cd-app-secrets"
       restartPolicy: Always
