@@ -1,8 +1,10 @@
 mimir-distributed:
   alertmanager:
-    persistentVolume:
-      enabled: false
-      storageClass: openebs-hostpath
+    enabled: false
+  overrides_exporter:
+    enabled: false
+  query_scheduler:
+    enabled: false
 
   compactor:
     persistentVolume:
@@ -47,4 +49,4 @@ mimir-distributed:
       installOperator: false
       metrics:
         additionalRemoteWriteConfigs:
-          - url: "http://metric-mimir-nginx/api/v1/push"
+          - url: "http://mimir-nginx/api/v1/push"
