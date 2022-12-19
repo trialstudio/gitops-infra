@@ -43,10 +43,11 @@ mimir-distributed:
 
   metaMonitoring:
     serviceMonitor:
-      enabled: true
+      enabled: false
     grafanaAgent:
-      enabled: true
+      enabled: false
       installOperator: false
       metrics:
-        additionalRemoteWriteConfigs:
-          - url: "http://mimir-nginx/api/v1/push"
+        enabled: false
+      logs:
+        enabled: false
